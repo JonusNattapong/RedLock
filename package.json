@@ -1,6 +1,6 @@
 {
-  "name": "auditorai",
-  "version": "1.5.0",
+  "name": "mibu",
+  "version": "2.0.0",
   "description": "Strategic Security Auditing and Resilience Lab",
   "repository": {
     "type": "git",
@@ -12,7 +12,7 @@
   "homepage": "https://github.com/JonusNattapong/AuditorAi#readme",
   "main": "index.js",
   "bin": {
-    "auditorai": "index.js",
+    "mibu": "index.js",
     "pi": "index.js"
   },
   "scripts": {
@@ -24,30 +24,37 @@
   },
   "keywords": [
     "github",
-    "blueprompt",
-    "reverse-engineering",
+    "mibu",
+    "auditorai",
+    "red-teaming",
+    "security",
     "ai",
     "openai",
     "gemini",
     "anthropic",
     "groq",
-    "codexray",
-    "bluecode",
-    "express"
+    "stealth",
+    "fuzzer"
   ],
-  "license": "MIT",
+  "license": "SEE LICENSE IN LICENSE",
+  "author": "JonusNattapong",
   "dependencies": {
-    "axios": "^1.14.0",
+    "axios": "^1.15.1",
     "boxen": "^5.1.2",
     "chalk": "^4.1.2",
     "cheerio": "^1.2.0",
+    "cookie-parser": "^1.4.7",
     "dotenv": "^16.6.1",
     "eventsource-parser": "^3.0.6",
     "express": "^5.1.0",
     "figures": "^3.2.0",
     "gradient-string": "^3.0.0",
+    "http-proxy": "^1.18.1",
     "inquirer": "^8.2.7",
     "js-beautify": "^1.15.4",
+    "jsonwebtoken": "^9.0.3",
+    "marked": "^15.0.12",
+    "marked-terminal": "^7.3.0",
     "ora": "^5.4.1",
     "playwright": "^1.59.1",
     "simple-git": "^3.35.2",

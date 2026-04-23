@@ -26,7 +26,7 @@ const PROVIDER_DEFAULTS = {
   },
   anthropic: {
     label: "Anthropic",
-    model: process.env.ANTHROPIC_MODEL || "claude-3-5-sonnet-latest",
+    model: process.env.ANTHROPIC_MODEL || "claude-3-haiku-20240307",
   },
   gemini: {
     label: "Google Gemini",
@@ -56,11 +56,15 @@ const PROVIDER_DEFAULTS = {
     label: "KiloCode",
     model: process.env.KILOCODE_MODEL || "kilocode/kilo/auto",
   },
+  opencode: {
+    label: "OpenCode",
+    model: process.env.OPENCODE_MODEL || "gpt-4o",
+    baseUrl: process.env.OPENCODE_BASE_URL || "https://api.opencode.ai/v1",
+  },
 };
 
 app.use(express.json({ limit: "2mb" }));
-// Point to the public folder relative to this file
-app.use(express.static(path.join(__dirname, "..", "public")));
+// NOTE: Web dashboard (public/) has been removed for TUI-focused intelligence.
 
 function parseGitHubUrl(input) {
   let url;
@@ -515,12 +519,17 @@ function getProviderCatalog() {
     ollama: {
       ...PROVIDER_DEFAULTS.ollama,
       configured: true,
-      baseUrl: process.env.OLLAMA_BASE_URL || "http://localhost:11434",
+      baseUrl: process.env.AUDITOR_API_URL || "http://localhost:4040",
     },
     kilocode: {
       ...PROVIDER_DEFAULTS.kilocode,
       configured: Boolean(process.env.KILOCODE_API_KEY),
       baseUrl: process.env.KILOCODE_BASE_URL || "https://api.kilo.ai/api/gateway/v1",
+    },
+    opencode: {
+      ...PROVIDER_DEFAULTS.opencode,
+      configured: Boolean(process.env.OPENCODE_API_KEY),
+      baseUrl: process.env.OPENCODE_BASE_URL || "https://api.opencode.ai/v1",
     },
   };
 }
@@ -872,13 +881,17 @@ app.post("/api/agent/stream", async (req, res) => {
             (content) => {
                 res.write(`data: ${JSON.stringify({ chunk: content })}\n\n`);
                 if (res.flush) res.flush();
-          },
-          (draftUpdate) => {
-            res.write(`data: ${JSON.stringify({ draft: draftUpdate })}\n\n`);
-            if (res.flush) res.flush();
+            },
+            (draftUpdate) => {
+                res.write(`data: ${JSON.stringify({ draft: draftUpdate })}\n\n`);
+                if (res.flush) res.flush();
             },
             payload.outputStyle || "agent",
-            payload.extraContext || ""
+            payload.extraContext || "",
+            (thought) => {
+                res.write(`data: ${JSON.stringify({ thought })}\n\n`);
+                if (res.flush) res.flush();
+            }
         );
         res.write(`data: [DONE]\n\n`);
         res.end();

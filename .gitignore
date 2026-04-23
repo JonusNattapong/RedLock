@@ -1,11 +1,44 @@
+# Dependencies
 node_modules/
+
+# Environment & Secrets
 .env
-.DS_Store
-*.log
-config.json
-temp/
-results/
-.parallax/
-.gemini/
 .env.*
 !.env.example
+config.json
+*.key
+*.pem
+*.secret
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime data
+temp/
+output/
+results/
+dossiers/
+*.tmp
+*.cache
+
+# OS Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE & Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Tool directories
+.parallax/
+.gemini/
+.mcp/
+.roo/
+.playwright/
